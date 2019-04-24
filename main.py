@@ -2,10 +2,22 @@ from flask import Flask, request, redirect, render_template, session, flash, url
 from flask_sqlalchemy import SQLAlchemy 
 app = Flask(__name__)
 app.config['DEBUG'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://build-a-blog:launchcode@localhost:8889/build-a-blog'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://Blogz:launchcode@localhost:8889/blogz'
 app.config['SQLALCHEMY_ECHO']= True
 app.secret_key = "launchcode"
 db = SQLAlchemy(app)
+
+
+class User(db.Model):
+
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(120), unique=True)
+    password = db.Column(db.String(120))
+    entries = db.relationship('Entry', backref= 'owner')
+
+    def __init__(self, email, password):
+        self.eamil = email
+        self.password = password
 
 
 class Entry(db.Model):
@@ -13,10 +25,12 @@ class Entry(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120))
     body = db.Column(db.String(150))
+    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    def __init__(self, name, body):
+    def __init__(self, name, body, owner):
         self.name = name
         self.body = body
+        self.owner = owner
 
 
 @app.route('/new_post', methods=['POST', 'GET'])
