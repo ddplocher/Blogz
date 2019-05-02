@@ -8,8 +8,8 @@
         <h3><a href= '/blog?id={{post.id}}'> {{post.name}} </a></h3>
         
          {{post.body}}
-        <p>Written by</p><a href= '/blog?user={{post.owner.email}}'> {{post.owner.email}}</a>
         
+        <p>Written by</p><a href= '/blog?user={{post.owner.email}}'> {{post.owner.email}}</a>
      {% endfor %}
    
   {% endblock %}

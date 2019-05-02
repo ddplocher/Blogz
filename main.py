@@ -160,22 +160,22 @@ def list_users():
 
 @app.route('/blog', methods= ['POST', 'GET'])
 def blog():
-    blogs = Entry.query.all()
+    
     userId = request.args.get('user')
     post_id = request.args.get('id')
-    users = User.query.all()
+    
     if userId == None and post_id == None:
-        blog = Entry.query.get('id')
+        
         blogs = Entry.query.all()
         
         return render_template('posts.html', posts=blogs)
 
 
     elif userId != None:
-        users = User.query.filter_by(email = userId).first()
-        user = User.query.all()
-        blogs = Entry.query.all()
-        return render_template('individual_user_page.html', posts=blogs)
+        user = User.query.filter_by(email = userId).first()
+        # posts = Entry.query.filter_by(owner_id=user.id)
+        
+        return render_template('individual_user_page.html', posts=user.entries)
 
    
             
