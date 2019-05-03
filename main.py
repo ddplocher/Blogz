@@ -129,22 +129,32 @@ def require_login():
 
 @app.route('/login', methods= ['POST', 'GET'])
 def login():
+        
+    
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-        user = User.query.filter_by(email=email).first()
+        user = User.query.filter_by(email=email).first()    
+        if session:
+            del session['email']
+            return redirect('/login')
 
-        if user and user.password == password:
+           
+
+        elif user and user.password == password:
             session['email'] = email
+                
+                 
+                
             return redirect ('/new_post')
+                
         else:
             flash('wrong password or username ')
             return redirect('/login')
+            
+    else:
         
-        
-    
-        
-    return render_template('login.html')
+        return render_template('login.html')
 
 @app.route('/logout')
 def logout():

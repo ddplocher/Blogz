@@ -7,7 +7,7 @@
 {% for post in posts %}
 
 
-<h2>{{post.name}}</h2>
+<h2> <a href = '/blog?id={{post.id}}'>{{ post.name }}</a></h2>
 <p> {{post.body}}</p>
 
 <p> Written by <a href = '/blog?user={{post.owner.email}}'>{{ post.owner.email }}</a></p>
